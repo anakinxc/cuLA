@@ -117,7 +117,6 @@ def tcgen05_ld_32x32b(num: int, taddr: int):
         return _nvvm.tcgen05_ld(
             res=vec_i32_ty,
             shape=_nvvm.Tcgen05LdStShape.SHAPE_32X32B,
-            num=num,
             tmem_addr=tmem_ptr,
             loc=loc,
             ip=ip,
@@ -154,9 +153,8 @@ def tcgen05_st_32x32b(num: int, taddr: int, vec):
         tmem_ptr = llvm.inttoptr(ptr6_ty, _to_ir(addr_val, loc, ip), loc=loc, ip=ip)
         _nvvm.tcgen05_st(
             shape=_nvvm.Tcgen05LdStShape.SHAPE_32X32B,
-            num=num,
             tmem_addr=tmem_ptr,
-            r=_to_ir(vec_val, loc, ip),
+            val=_to_ir(vec_val, loc, ip),
             loc=loc,
             ip=ip,
         )
@@ -282,9 +280,10 @@ def store_256b(gmem_ptr, vec):
         i32_ty = _ir_mod.IntegerType.get_signless(32)
         ir_v = _to_ir(v, loc, ip)
         elems = [
-            _vector.extractelement(
+            _vector.extract(
                 ir_v,
-                position=_arith.constant(i32_ty, i, loc=loc, ip=ip),
+                dynamic_position=[],
+                static_position=[i],
                 loc=loc,
                 ip=ip,
             )
