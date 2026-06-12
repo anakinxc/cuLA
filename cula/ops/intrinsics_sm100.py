@@ -68,7 +68,6 @@ __all__ = [
 
 import cutlass.cute as cute
 from cutlass._mlir import ir as _ir_mod
-from cutlass._mlir.dialects import arith as _arith
 from cutlass._mlir.dialects import llvm
 from cutlass._mlir.dialects import nvvm as _nvvm
 from cutlass._mlir.dialects import vector as _vector
@@ -277,7 +276,6 @@ def store_256b(gmem_ptr, vec):
 
     @dsl_user_op
     def _do(addr, v, *, loc=None, ip=None):
-        i32_ty = _ir_mod.IntegerType.get_signless(32)
         ir_v = _to_ir(v, loc, ip)
         elems = [
             _vector.extract(

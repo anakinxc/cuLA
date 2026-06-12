@@ -14,7 +14,7 @@ from cutlass.cute.arch import (
     mbarrier_init_fence,
     mbarrier_wait,
 )
-from cutlass.cute.nvgpu import cpasync, tcgen05, OperandMajorMode
+from cutlass.cute.nvgpu import OperandMajorMode, cpasync, tcgen05
 from cutlass.cute.nvgpu.tcgen05 import (
     make_umma_smem_desc,
     smem_descriptor_to_int,
